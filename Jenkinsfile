@@ -7,7 +7,8 @@ pipeline{
       agent { 
      node { 
         label 'jenkins_agent' 
-          } 
+       } 
+    }
     stages{
         stage('start python test') {
             steps{
@@ -26,16 +27,24 @@ pipeline{
         }
         stage('build docker image') {
             steps{
+                script{
                 dockerImage = docker.build(name)
+                }
             }
+        }
         stage('auth docker hub') {
             steps{
+                script{
                 docker.withRegistry('', credential)
-            }   
+                } 
+            }
+        }
         stage('docker push') {
             steps{
+                script{
                 dockerImage.push()
+                }
             }    
     }
     }
-}
+ }
