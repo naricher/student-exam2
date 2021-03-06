@@ -31,19 +31,14 @@ pipeline{
                 }
             }
         }
-        stage('auth docker hub') {
+        stage('auth and push in  docker hub') {
             steps{
                 script{
-                docker.withRegistry('', credential)
+                    docker.withRegistry( '', credential) {
+                    dockerImage.push()
+                    }
                 } 
             }
-        }
-        stage('docker push') {
-            steps{
-                script{
-                dockerImage.push()
-                }
-            }    
-    }
+        }   
     }
  }
